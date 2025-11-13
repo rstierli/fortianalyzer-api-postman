@@ -28,10 +28,10 @@ Click this button to import directly into Postman:
 
 ```bash
 # Download collection
-curl -O https://raw.githubusercontent.com/YOUR_USERNAME/fortianalyzer-api-postman/main/collections/FortiAnalyzer_Master_Collection_V1.1.postman_collection.json
+curl -O https://raw.githubusercontent.com/rstierli/fortianalyzer-api-postman/main/collections/FortiAnalyzer_Master_Collection_V1.1.postman_collection.json
 
 # Download environment template
-curl -O https://raw.githubusercontent.com/YOUR_USERNAME/fortianalyzer-api-postman/main/environments/example.postman_environment.json
+curl -O https://raw.githubusercontent.com/rstierli/fortianalyzer-api-postman/main/environments/example.postman_environment.json
 ```
 
 ### 2. Configure Environment
@@ -310,8 +310,8 @@ Contributions are welcome! Please follow these steps:
 
 ## 🐛 Issues & Support
 
-- 📧 **Report Issues**: [GitHub Issues](https://github.com/YOUR_USERNAME/fortianalyzer-api-postman/issues)
-- 💬 **Discussions**: [GitHub Discussions](https://github.com/YOUR_USERNAME/fortianalyzer-api-postman/discussions)
+- 📧 **Report Issues**: [GitHub Issues](https://github.com/rstierli/fortianalyzer-api-postman/issues)
+- 💬 **Discussions**: [GitHub Discussions](https://github.com/rstierli/fortianalyzer-api-postman/discussions)
 - 📚 **Documentation**: [SETUP.md](SETUP.md)
 
 ---

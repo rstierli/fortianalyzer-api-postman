@@ -20,7 +20,7 @@ Thank you for your interest in contributing! This document provides guidelines f
 
 2. **Clone your fork**
    ```bash
-   git clone https://github.com/YOUR_USERNAME/fortianalyzer-api-postman.git
+   git clone https://github.com/rstierli/fortianalyzer-api-postman.git
    cd fortianalyzer-api-postman
    ```
 
@@ -201,9 +201,9 @@ When reporting issues:
 
 ## 💬 Questions?
 
-- Open a [GitHub Discussion](https://github.com/YOUR_USERNAME/fortianalyzer-api-postman/discussions)
+- Open a [GitHub Discussion](https://github.com/rstierli/fortianalyzer-api-postman/discussions)
 - Check [SETUP.md](SETUP.md) for usage questions
-- Review [existing issues](https://github.com/YOUR_USERNAME/fortianalyzer-api-postman/issues)
+- Review [existing issues](https://github.com/rstierli/fortianalyzer-api-postman/issues)
 
 ## 📄 License
 
