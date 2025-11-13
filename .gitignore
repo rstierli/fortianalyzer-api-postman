@@ -1,0 +1,44 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Personal Postman environment files with real credentials
+environments/*.postman_environment.json
+!environments/example.postman_environment.json
+
+# Postman local data
+.postman/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Node (if using Newman)
+node_modules/
+package-lock.json
+npm-debug.log*
+
+# Newman reports
+newman/
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.bak
+.env
+.env.local
+credentials.json

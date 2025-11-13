@@ -1,0 +1,68 @@
+name: Test Postman Collection
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install Newman
+        run: npm install -g newman
+
+      - name: Validate Collection JSON
+        run: |
+          echo "Validating collection JSON structure..."
+          node -e "JSON.parse(require('fs').readFileSync('collections/FortiAnalyzer_Master_Collection_V1.1.postman_collection.json'))"
+          echo "✅ Collection JSON is valid"
+
+      - name: Validate Environment JSON
+        run: |
+          echo "Validating environment JSON structure..."
+          node -e "JSON.parse(require('fs').readFileSync('environments/example.postman_environment.json'))"
+          echo "✅ Environment JSON is valid"
+
+      - name: Check for Hardcoded Secrets
+        run: |
+          echo "Checking for hardcoded secrets in collection..."
+          if grep -rE '(password|passwd|api[_-]?key|token|secret).*[:=].*["\047][^{\s]{8,}' collections/*.json; then
+            echo "❌ Potential hardcoded secrets found!"
+            exit 1
+          else
+            echo "✅ No hardcoded secrets detected"
+          fi
+
+      - name: Collection Statistics
+        run: |
+          echo "📊 Collection Statistics:"
+          echo "Collection file size: $(du -h collections/FortiAnalyzer_Master_Collection_V1.1.postman_collection.json | cut -f1)"
+          echo "Number of requests: $(grep -o '"request"' collections/FortiAnalyzer_Master_Collection_V1.1.postman_collection.json | wc -l)"
+          echo "Number of folders: $(grep -o '"item"' collections/FortiAnalyzer_Master_Collection_V1.1.postman_collection.json | wc -l)"
+
+      # Uncomment below to run actual API tests (requires FortiAnalyzer access)
+      # - name: Run Newman Tests
+      #   env:
+      #     FAZ_HOST: ${{ secrets.FAZ_HOST }}
+      #     FAZ_API_KEY: ${{ secrets.FAZ_API_KEY }}
+      #   run: |
+      #     newman run collections/FortiAnalyzer_Master_Collection_V1.1.postman_collection.json \
+      #       --environment environments/example.postman_environment.json \
+      #       --env-var "fqdn=$FAZ_HOST" \
+      #       --env-var "access_token=$FAZ_API_KEY" \
+      #       --reporters cli,json \
+      #       --reporter-json-export results.json
+
+      - name: Success
+        run: echo "✅ All checks passed!"
