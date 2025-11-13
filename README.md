@@ -42,12 +42,12 @@ curl -O https://raw.githubusercontent.com/rstierli/fortianalyzer-api-postman/mai
    - `fqdn`: Your FortiAnalyzer hostname/IP
    - `user`: Your admin username
    - `password`: Your admin password
-   - `access_token`: Your API key (recommended)
+   - `faz-api-token`: Your API key (recommended)
 
 ### 3. Start Using
 
 - **Session Auth**: Run "Login" → Use other requests → "Logout"
-- **API Key Auth**: Set `access_token` → Use any request directly
+- **API Key Auth**: Set `faz-api-token` → Use any request directly
 
 📖 **Full setup guide:** [SETUP.md](SETUP.md)
 
@@ -195,7 +195,7 @@ This collection includes powerful **pre-request** and **post-response** scripts 
 
 ```
 1. Generate API key in FortiAnalyzer (see SETUP.md)
-2. Set access_token in environment
+2. Set faz-api-token in environment
 3. Run any request → No login/logout needed
 ```
 
@@ -211,7 +211,7 @@ This collection includes powerful **pre-request** and **post-response** scripts 
 | `tcp` | HTTPS port | ✅ Yes | `443` |
 | `user` | Admin username | 🔐 Session auth | `admin` |
 | `password` | Admin password | 🔐 Session auth | `yourpassword` |
-| `access_token` | API key | 🔑 API key auth | `abc123...` |
+| `faz-api-token` | API key (Bearer token) | 🔑 API key auth | `abc123...` |
 | `adom` | ADOM name | ✅ Yes | `root` |
 | `session` | Session ID | 🔄 Auto | (auto-filled) |
 | `taskID` | Task ID for async ops | 🔄 Auto | (auto-filled) |

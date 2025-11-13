@@ -91,7 +91,7 @@ Click **Edit** on your new environment and update these values:
 - `time_range_end` - Calculated automatically (current time)
 - `layoutID` - Filled automatically from report operations
 - `pdfBase64` / `pdfFileName` - Filled automatically from PDF downloads
-- `access_token` - Only fill if using API key auth (instead of session)
+- `faz-api-token` - Only fill if using API key auth (instead of session)
 
 ### Step 3: Select Environment
 
@@ -220,9 +220,9 @@ API Key: jfhd83hfksjdhf93hf8sdhf983hf9s8dhf9s8dhf98sdhf98sdhf98sdhf9
 
 1. Go to **Environments** in Postman
 2. Edit your environment
-3. Set `access_token` to your API key:
+3. Set `faz-api-token` to your API key:
    ```
-   access_token = jfhd83hfksjdhf93hf8sdhf983hf9s8dhf9s8dhf98sdhf98sdhf98sdhf9
+   faz-api-token = jfhd83hfksjdhf93hf8sdhf983hf9s8dhf9s8dhf98sdhf98sdhf98sdhf9
    ```
 4. **Save** the environment
 
@@ -231,7 +231,7 @@ API Key: jfhd83hfksjdhf93hf8sdhf983hf9s8dhf9s8dhf98sdhf98sdhf98sdhf9
 In the collection, find any request under **"Login and Logout"** → Try the **"Get System Status"** request:
 
 1. Ensure your environment is selected
-2. The request will automatically use the `access_token`
+2. The request will automatically use `{{faz-api-token}}` as the Bearer token
 3. Click **Send**
 4. ✅ If successful, you'll get system info back
 
@@ -247,14 +247,14 @@ In the collection, find any request under **"Login and Logout"** → Try the **"
 | `tcp` | HTTPS port | All requests URL | ❌ Manual |
 | `user` | Admin username | Login request | ❌ Manual |
 | `password` | Admin password | Login request | ❌ Manual |
-| `access_token` | API key | Authorization header | ❌ Manual |
+| `faz-api-token` | API key (Bearer token) | Authorization header | ❌ Manual |
 
 ### Session & Authentication
 
 | Variable | Purpose | Auto-Populated? |
 |----------|---------|-----------------|
 | `session` | Session ID from login | ✅ Yes (from login response) |
-| `access_token` | API key (alternative to session) | ❌ Manual |
+| `faz-api-token` | API key (alternative to session) | ❌ Manual |
 
 ### Operational Variables
 
@@ -427,7 +427,7 @@ The post-response script will automatically clean up this flag after skipping.
 
 ### Test 2: API Key Auth
 
-1. **Set `access_token`** in environment
+1. **Set `faz-api-token`** in environment with your API key
 2. **Open:** `System Settings` → `Get System Status`
 3. **Click Send**
 4. **Verify Response:** Should return FortiAnalyzer info without login
