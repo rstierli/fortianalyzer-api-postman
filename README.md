@@ -365,9 +365,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🌟 Related Projects
 
-- **FortiManager API Collection** - *(link if available)*
-- **FortiGate API Collection** - *(link if available)*
-- **Fortinet API Docs** - [https://docs.fortinet.com](https://docs.fortinet.com)
+- **Fortinet Docs** - [https://docs.fortinet.com](https://docs.fortinet.com)
+- **Fortinet API Docs** - [https://fndn.fortinet.com](https://fndn.fortinet.com)
+- **FortiAnalyzer IPS PCAP Downloader** - [https://github.com/rstierli/fortianalyzer-pcap-downloader](https://github.com/rstierli/fortianalyzer-pcap-downloader)
 
 ---
 
