@@ -8,7 +8,7 @@
 </p>
 
 <p align="center">
-  <strong>Official Postman collection for FortiAnalyzer JSON-RPC API</strong><br>
+  <strong>Postman collection for FortiAnalyzer JSON-RPC API</strong><br>
   100+ ready-to-use API requests for log management, reporting, device management, and security operations
 </p>
 
@@ -151,6 +151,32 @@ The collection includes **100+ API requests** organized by category:
 
 ---
 
+## 🤖 Smart Automation Features
+
+This collection includes powerful **pre-request** and **post-response** scripts that automate repetitive tasks:
+
+### ✅ Automatic Time Range Calculation
+- Set `time_range_days` once (default: 30 days)
+- Time ranges automatically calculated on every request
+- Always uses current timestamps - no manual updates needed
+
+### ✅ Automatic Variable Extraction
+- **Session IDs** - Auto-extracted from login responses
+- **Task IDs (TID)** - Auto-saved for async operations (LogView, Reports, FortiView)
+- **Layout IDs** - Auto-extracted from report operations
+- **PDF Data** - Auto-captured from report downloads
+
+### ✅ Seamless Multi-Step Workflows
+```
+1. Create Search Task → TID automatically saved
+2. Fetch Results → Uses {{taskID}} automatically
+3. No manual copying needed!
+```
+
+📖 **Full details:** [SETUP.md - Collection Automation Features](SETUP.md#-collection-automation-features)
+
+---
+
 ## 🔐 Authentication Methods
 
 ### Method 1: Session-Based (Username/Password)
@@ -202,33 +228,35 @@ The collection includes **100+ API requests** organized by category:
 1. Authenticate (login or API key)
 2. Open: LogView → "Create Search Task for IP Dst"
 3. Edit the filter field with your IP address
-4. Click Send → Copy TID from response
+4. Click Send → taskID automatically saved to environment
 5. Open: LogView → "Fetch Log Search Result by Task ID"
-6. Replace {{taskID}} with your TID
-7. Click Send → View results
+6. Click Send → Uses {{taskID}} automatically
+7. View results
 ```
+
+**Note:** The collection automatically extracts and saves the Task ID (TID) from responses, so no manual copying is needed!
 
 ### Example 2: Generate Security Report
 
 ```
 1. Authenticate
 2. Open: Reports → "Run Report"
-3. Set report template and time range
-4. Click Send → Copy TID
-5. Wait 30-60 seconds
-6. Open: Reports → "Download Report"
-7. Use TID to download PDF/HTML
+3. Click Send → taskID and time ranges handled automatically
+4. Wait 30-60 seconds for report generation
+5. Open: Reports → "Download Report"
+6. Click Send → Uses saved taskID automatically
 ```
+
+**Note:** Time ranges are automatically calculated based on `time_range_days` environment variable (default: 30 days).
 
 ### Example 3: FortiView Top Threats
 
 ```
 1. Authenticate
 2. Open: FortiView Top Threats → "Create Task"
-3. Set time range and filters
-4. Click Send → Copy TID
-5. Open: FortiView Top Threats → "Fetch Result by Task"
-6. Use TID to get threat statistics
+3. Click Send → taskID auto-saved
+4. Open: FortiView Top Threats → "Fetch Result by Task"
+5. Click Send → Uses {{taskID}} automatically to get threat statistics
 ```
 
 ---

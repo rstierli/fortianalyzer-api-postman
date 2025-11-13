@@ -82,11 +82,16 @@ Click **Edit** on your new environment and update these values:
 | `user` | Admin username | `admin` |
 | `password` | Admin password | `YourStrongPassword!` |
 | `adom` | ADOM name | `root` (default) or your ADOM name |
+| `time_range_days` | Default query period in days | `30` (default), `7`, `90`, etc. |
 
-**Leave these blank (auto-populated):**
+**Leave these blank (auto-populated by scripts):**
 - `session` - Filled automatically after login
 - `taskID` - Filled automatically by async operations
-- `access_token` - Only fill if using API key auth
+- `time_range_start` - Calculated automatically from time_range_days
+- `time_range_end` - Calculated automatically (current time)
+- `layoutID` - Filled automatically from report operations
+- `pdfBase64` / `pdfFileName` - Filled automatically from PDF downloads
+- `access_token` - Only fill if using API key auth (instead of session)
 
 ### Step 3: Select Environment
 
@@ -264,23 +269,140 @@ In the collection, find any request under **"Login and Logout"** → Try the **"
 
 | Variable | Purpose | Default | Auto-Populated? |
 |----------|---------|---------|-----------------|
-| `time_range_days` | Default query period | `30` | ❌ Manual |
-| `time_range_start` | Query start timestamp | - | 🔄 Calculated |
-| `time_range_end` | Query end timestamp | - | 🔄 Calculated |
+| `time_range_days` | Default query period | `30` | ❌ Manual (configure once) |
+| `time_range_start` | Query start timestamp | Auto-calculated | ✅ Yes (pre-request script) |
+| `time_range_end` | Query end timestamp | Auto-calculated | ✅ Yes (pre-request script) |
 
-### Pre/Post Scripts
+### PDF Download Variables
 
-**Current Status:** The collection has **minimal pre/post scripts**.
+| Variable | Purpose | Auto-Populated? |
+|----------|---------|-----------------|
+| `pdfBase64` | Base64-encoded PDF data | ✅ Yes (post-response script) |
+| `pdfFileName` | Generated PDF filename | ✅ Yes (post-response script) |
 
-Most variables are currently:
-- ✅ Pre-configured in requests
-- 📋 Manually copied from responses (e.g., copy `session` from login response)
-- 🔄 Auto-set only for session ID after login
+---
 
-**Future Enhancement:** Scripts could auto-extract:
-- Task IDs from async operations
-- Report IDs from report generation
-- Time ranges from calculations
+## 🤖 Collection Automation Features
+
+The collection includes powerful **pre-request** and **post-response** scripts that automate repetitive tasks:
+
+### Pre-Request Script: Automatic Time Range Calculation
+
+**What it does:**
+- Automatically calculates time ranges for log searches and reports
+- Uses `time_range_days` environment variable (default: 30 days)
+- Generates ISO-formatted timestamps without milliseconds
+- Updates on every request execution
+
+**How it works:**
+```javascript
+// Reads time_range_days (defaults to 30)
+const daysBack = parseInt(pm.environment.get("time_range_days") || "30");
+const now = new Date();
+
+// Calculates and sets:
+// - time_range_end = current timestamp
+// - time_range_start = current timestamp - X days
+```
+
+**Configuration:**
+Set `time_range_days` in your environment to change the default query period:
+```
+time_range_days = 7   (last 7 days)
+time_range_days = 30  (last 30 days - default)
+time_range_days = 90  (last 90 days)
+```
+
+**Result:**
+No need to manually calculate or update timestamps - they're always current!
+
+---
+
+### Post-Response Script: Automatic Variable Extraction
+
+**What it does:**
+- Extracts important data from API responses
+- Automatically saves to environment variables
+- Enables seamless multi-step workflows
+
+**Automatically extracts:**
+
+#### 1. Session Management
+```javascript
+// Detects login responses
+// Automatically saves: session ID
+// Automatically clears: session on logout
+```
+
+**What this means:** After running "Login", the `session` variable is automatically populated. No manual copying!
+
+#### 2. Task ID (TID) Extraction
+```javascript
+// Detects: result.tid in response
+// Automatically saves to: taskID variable
+```
+
+**What this means:**
+- Run "Create Search Task" → `taskID` auto-saved
+- Run "Fetch Search Result by Task ID" → Uses `{{taskID}}` automatically
+- Works for LogView, Reports, FortiView operations
+
+#### 3. Layout ID Extraction
+```javascript
+// Detects: layout-id in response
+// Automatically saves to: layoutID variable
+```
+
+**What this means:** Report layout operations automatically save layout IDs for subsequent requests.
+
+#### 4. PDF Download Handling
+```javascript
+// Detects: Base64-encoded PDF data
+// Automatically saves:
+//   - pdfBase64: PDF content
+//   - pdfFileName: Generated filename
+```
+
+**What this means:** Downloaded reports are automatically captured and ready for export.
+
+---
+
+### Automation Benefits
+
+✅ **No Manual Copying:** Session IDs, Task IDs, Layout IDs auto-extracted
+✅ **Always Current:** Time ranges calculated on each request
+✅ **Error-Free:** Eliminates copy-paste mistakes
+✅ **Faster Workflow:** Multi-step operations are seamless
+✅ **Logging:** Console output shows what's being extracted
+
+---
+
+### Viewing Script Logs
+
+To see what the scripts are doing:
+
+1. Open Postman Console: **View → Show Postman Console**
+2. Run any request
+3. See detailed logs:
+   ```
+   [LOG] ✅ Login successful for admin. Session set.
+   [LOG] 🆔 Extracted tid: 12345 → saved as taskID
+   [LOG] Updating time_range_end: 2025-11-13T10:30:00Z
+   [LOG] Updating time_range_start: 2025-10-14T10:30:00Z
+   ```
+
+---
+
+### Skipping Scripts (Advanced)
+
+If you need to skip the post-response handler for a specific request:
+
+```javascript
+// Add to request pre-request script:
+pm.environment.set("skipLoginHandler", true);
+```
+
+The post-response script will automatically clean up this flag after skipping.
 
 ---
 
@@ -310,16 +432,16 @@ Most variables are currently:
 3. **Click Send**
 4. **Verify Response:** Should return FortiAnalyzer info without login
 
-### Test 3: LogView Search (Async Operation)
+### Test 3: LogView Search (Async Operation with Auto-Extraction)
 
 1. **Authenticate** (either method)
 2. **Open:** `LogView` → `Create Search Task for IP Dst`
 3. **Edit request** - set a valid IP in the filter
 4. **Click Send**
-5. **Copy `tid`** from response
+5. **Check Console** - you'll see: `🆔 Extracted tid: 12345 → saved as taskID`
 6. **Open:** `LogView` → `Fetch Log Search Result by Task ID`
-7. **Paste `tid`** into URL (replace `{{taskID}}`)
-8. **Click Send** - should return log results
+7. **Click Send** - uses `{{taskID}}` automatically, no manual copying needed!
+8. **View results** - should return log entries
 
 ---
 
@@ -363,16 +485,21 @@ end
 
 ---
 
-### Issue: Variables Not Populating
+### Issue: Variables Not Auto-Populating
 
-**Cause:** No pre/post scripts in collection
+**Cause:** Scripts may not be enabled or console not showing logs
 
-**Current Workaround:**
-1. Run the request
-2. Manually copy values from response
-3. Paste into environment variables
-
-**Example:** After login, copy `session` from response and paste into `session` variable.
+**Solution:**
+1. **Check Postman Console:** View → Show Postman Console
+2. **Look for extraction logs:**
+   ```
+   [LOG] 🆔 Extracted tid: 12345 → saved as taskID
+   [LOG] ✅ Login successful for admin. Session set.
+   ```
+3. **If no logs appear:**
+   - Ensure scripts are enabled: Settings → General → "Allow reading files outside working directory" (ON)
+   - Check that the collection's pre/post scripts are intact
+4. **Verify environment variables:** Check that `session`, `taskID` are being set after requests
 
 ---
 
