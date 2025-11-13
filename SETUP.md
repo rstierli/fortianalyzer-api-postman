@@ -218,22 +218,67 @@ API Key: jfhd83hfksjdhf93hf8sdhf983hf9s8dhf9s8dhf98sdhf98sdhf98sdhf9
 
 ### Step 5: Add API Key to Postman Environment
 
-1. Go to **Environments** in Postman
-2. Edit your environment
-3. Set `faz-api-token` to your API key:
+⚠️ **IMPORTANT: Understanding How Bearer Token Variables Work**
+
+The collection uses a **variable reference** `{{faz-api-token}}` in its Bearer Token configuration. You should **NOT** paste your actual API key directly in the collection's Token field!
+
+#### How It Works:
+
+**1. Collection Authorization (Do NOT Change This!):**
+
+The collection's Authorization tab contains a variable placeholder:
+
+![Collection Bearer Token Configuration](images/bearer-token-collection-auth.png)
+
+- **Token field contains:** `{{faz-api-token}}` ← This is a variable reference
+- **⚠️ Do NOT paste your actual API key here!**
+- **✅ Leave it as `{{faz-api-token}}`** - Postman will substitute the value from your environment
+
+**2. Environment Variables (Paste Your API Key Here!):**
+
+This is where you paste your actual API key:
+
+![Environment API Token Field](images/environment-api-token-field.png)
+
+**Steps:**
+1. Click **Environments** tab (left sidebar)
+2. Select your environment (e.g., "FortiAnalyzer Example Environment")
+3. Find the `faz-api-token` variable
+4. **Paste your actual API key** in the Value column:
    ```
    faz-api-token = jfhd83hfksjdhf93hf8sdhf983hf9s8dhf9s8dhf98sdhf98sdhf98sdhf9
    ```
-4. **Save** the environment
+5. Click **Save** (Ctrl+S / Cmd+S)
+
+**3. How Postman Substitutes Variables:**
+
+When you send a request:
+- Postman sees `{{faz-api-token}}` in the collection's Bearer Token field
+- It looks up the value from your **active environment**
+- It substitutes your actual API key automatically
+- The request is sent with your API key in the Authorization header
+
+#### Why This Approach?
+
+✅ **Security:** Keeps credentials out of the collection (which can be shared/committed to Git)
+✅ **Flexibility:** Different environments can use different API keys (dev, prod, etc.)
+✅ **Best Practice:** Credentials in environment files, configuration in collections
+
+---
 
 ### Step 6: Test API Key
 
 In the collection, find any request under **"Login and Logout"** → Try the **"Get System Status"** request:
 
-1. Ensure your environment is selected
-2. The request will automatically use `{{faz-api-token}}` as the Bearer token
+1. Ensure your environment is selected (top-right dropdown)
+2. The request will automatically use the value from `{{faz-api-token}}`
 3. Click **Send**
 4. ✅ If successful, you'll get system info back
+
+**Troubleshooting:**
+- If you get authentication errors, verify the `faz-api-token` value in your environment
+- Check that the correct environment is selected (top-right dropdown)
+- Ensure the token field in the collection still shows `{{faz-api-token}}` (not the actual key)
 
 ---
 
