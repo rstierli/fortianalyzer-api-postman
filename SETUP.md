@@ -261,7 +261,9 @@ When you send a request:
 #### Why This Approach?
 
 ✅ **Security:** Keeps credentials out of the collection (which can be shared/committed to Git)
+
 ✅ **Flexibility:** Different environments can use different API keys (dev, prod, etc.)
+
 ✅ **Best Practice:** Credentials in environment files, configuration in collections
 
 ---
