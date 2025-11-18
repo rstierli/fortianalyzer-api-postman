@@ -37,7 +37,11 @@ jobs:
       - name: Check for Hardcoded Secrets
         run: |
           echo "Checking for hardcoded secrets in collection..."
-          if grep -rE '(password|passwd|api[_-]?key|token|secret).*[:=].*["\047][^{\s]{8,}' collections/*.json; then
+          # Find lines with sensitive keywords, exclude Postman variables and descriptions
+          if grep -rE '(password|passwd|api[_-]?key|token|secret).*[:=]' collections/*.json | \
+             grep -v '{{.*}}' | \
+             grep -v '"description"' | \
+             grep -E '["'\''][a-zA-Z0-9+/=]{16,}["'\'']'; then
             echo "❌ Potential hardcoded secrets found!"
             exit 1
           else

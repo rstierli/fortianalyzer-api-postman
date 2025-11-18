@@ -4138,7 +4138,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"method\": \"add\",\r\n  \"params\": [\r\n    {\r\n      \"data\": [\r\n        {\r\n          \"action\": \"include\",\r\n          \"device\": \"FG100E4Q16000263\",\r\n          \"id\": 0\r\n        }\r\n      ],\r\n      \"url\": \"/cli/global/system/log-forward/3/device-filter\"\r\n    }\r\n  ],\r\n  \"session\": \"{{session}}\",\r\n  \"id\": 1\r\n}"
+									"raw": "{\r\n  \"method\": \"add\",\r\n  \"params\": [\r\n    {\r\n      \"data\": [\r\n        {\r\n          \"action\": \"include\",\r\n          \"device\": \"FG100E4Q00000001\",\r\n          \"id\": 0\r\n        }\r\n      ],\r\n      \"url\": \"/cli/global/system/log-forward/3/device-filter\"\r\n    }\r\n  ],\r\n  \"session\": \"{{session}}\",\r\n  \"id\": 1\r\n}"
 								},
 								"url": {
 									"raw": "https://{{fqdn}}/jsonrpc",
