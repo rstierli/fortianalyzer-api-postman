@@ -274,7 +274,7 @@ This collection includes powerful **pre-request** and **post-response** scripts 
 
 - **Setup Guide**: [SETUP.md](SETUP.md) - Complete installation and configuration
 - **API Documentation**: [FortiAnalyzer API Docs](https://docs.fortinet.com/document/fortianalyzer/latest/json-rpc-api-reference/)
-- **Full Documentation**: [How to FortiAnalyzer API](https://your-readthedocs-url.io) *(if published)*
+- **Full Documentation**: [How to FortiAnalyzer API](https://how-to-fortianalyzer-api.readthedocs.io/en/latest/)
 
 ---
 

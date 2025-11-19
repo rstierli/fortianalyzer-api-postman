@@ -577,7 +577,7 @@ end
 ## Next Steps
 
 - ✅ **Explore Requests:** Browse the collection folders
-- 📚 **Read API Docs:** [Full Documentation](https://your-docs-url.readthedocs.io)
+- 📚 **Read API Docs:** [Full Documentation](https://how-to-fortianalyzer-api.readthedocs.io/en/latest/)
 - 🧪 **Test Operations:** Try LogView searches, report generation
 - 🤖 **Automate:** Use Newman CLI for CI/CD integration
 - 🤝 **Contribute:** Submit improvements via GitHub
@@ -586,7 +586,7 @@ end
 
 ## Additional Resources
 
-- **Full API Documentation:** [https://your-docs-url.readthedocs.io](https://your-docs-url.readthedocs.io)
+- **Full API Documentation:** [https://how-to-fortianalyzer-api.readthedocs.io](https://how-to-fortianalyzer-api.readthedocs.io/en/latest/)
 - **Postman Documentation:** [https://learning.postman.com](https://learning.postman.com)
 - **FortiAnalyzer Admin Guide:** [Fortinet Docs](https://docs.fortinet.com)
 
